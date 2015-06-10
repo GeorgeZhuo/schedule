@@ -21,13 +21,13 @@ urls = (
     '/schedule/userclear',              dutyinfo    + 'Userclear',
     '/schedule/scheduleclear',          dutyinfo    + 'Scheduleclear',
 
-    '/schedule/(\d+)/strike',           select      + 'Strike',
-    '/schedule/(\d+)/strikeundo',       select      + 'Strikeundo',
-    '/schedule/launch',                 select      + 'Launch',
+    '/schedule/new',                    select      + 'New',
+    '/schedule/superusernew',           select      + 'SuperNew',
+    '/schedule/(\d+)/delete',           select      + 'Delete',
 
-    '/schedule/new',                    arrange     + 'New',
-    '/schedule/superusernew',           arrange     + 'SuperNew',
-    '/schedule/(\d+)/delete',           arrange     + 'Delete',
+    '/schedule/(\d+)/strike',           arrange     + 'Strike',
+    '/schedule/(\d+)/strikeundo',       arrange     + 'Strikeundo',
+    '/schedule/launch',                 arrange     + 'Launch',
     '/schedule/(\d+)/userdelete',       arrange     + 'Userdelete',
 
     '/schedule/(\d+)/attend',           attend      + 'Attend',
