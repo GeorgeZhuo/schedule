@@ -1,0 +1,169 @@
+$def with(schedules, users)
+$:render.header()
+<div class="container mytable">
+  <table class="table table-bordered table-striped">
+    <tr>
+      <th class="blank"></th>
+      <th class="day">Monday</th>
+      <th class="day">Tuesday</th>
+      <th class="day">Wednesday</th>
+      <th class="day">Thursday</th>
+      <th class="day">Friday</th>
+      <th class="day">Sataurday</th>
+      <th class="day">Sunday</th>
+    </tr>
+    <tr>
+      <th class="time"> 9:00-12:00 </th>
+      $ j = 1
+      $for i in range(1, 8):
+        <td class="txt" id="$i$j"></td>
+    </tr>
+    <tr>
+      <th class="time"> 12:00-15:00 </th>
+      $ j = 2
+      $for i in range(1, 8):
+        <td class="txt" id="$i$j"></td>
+    </tr>
+    <tr>
+      <th class="time"> 15:00-18:00 </th>
+      $ j = 3
+      $for i in range(1, 8):
+        <td class="txt" id="$i$j"></td>
+    </tr>
+    <tr>
+      <th class="time"> 18:00-21:00 </th>
+      $ j = 4
+      $for i in range(1, 8):
+        <td class="txt" id="$i$j"></td>
+    </tr>
+    <tr>
+      <th class="time"> 21:00-22:30 </th>
+      $ j = 5
+      $for i in range(1, 8):
+        <td class="txt" id="$i$j"></td>
+    </tr>
+  </table>
+  <div class="container clear mytable">
+	      <button class="btn btn-primary" onclick='location.href="scheduleclear"'>清零</button>
+  </div>
+</div>
+$for schedule in schedules:
+  $if not schedule.finish:
+    $if not schedule.ischange:
+      <script>
+	var para=document.createElement("p");
+	var node=document.createTextNode("$schedule.s_name" + " ");
+	para.appendChild(node);
+	
+	var attend=document.createElement("button");
+	attend.onclick=function(){location.href='$schedule.id/attend'};
+	attend.className="btn btn-xs att-button btn-primary";
+	var txt=document.createTextNode("考勤");
+	attend.appendChild(txt);
+	
+	var cover=document.createElement("button");
+	cover.onclick=function(){location.href='$schedule.id/cover'};
+	cover.className="btn btn-xs att-button btn-primary";
+	var txtcover=document.createTextNode("代班");
+	cover.appendChild(txtcover)
+	
+	para.appendChild(attend);
+	para.appendChild(cover);
+	
+	var element=document.getElementById("$schedule.s_time");
+	element.appendChild(para);
+      </script>
+    $else:
+      <script>
+	var myform=document.createElement("form");
+	myform.method="post";
+	myform.action="$schedule.id/coverperson";
+
+	var txt=document.createElement("input");
+	txt.type="text";
+	txt.name="person";
+	txt.className="coverinput";
+
+	var attend=document.createElement("button");
+	attend.type="summit";
+	attend.className="btn btn-xs att-button btn-primary";
+	var txtattend=document.createTextNode("考勤");
+	attend.appendChild(txtattend);
+
+	var undo=document.createElement("button");
+	undo.onclick=function(){location.href='$schedule.id/coverundo'};
+	undo.className="btn btn-xs att-button btn-primary cover-btn";
+	var txtundo=document.createTextNode("撤销");
+	undo.appendChild(txtundo);
+
+	myform.appendChild(txt);
+	myform.appendChild(attend);
+
+	
+	var element=document.getElementById("$schedule.s_time");
+	element.appendChild(myform);
+	element.appendChild(undo);
+      </script>
+  $elif not schedule.ischange:
+    <script>
+      var img=document.createElement("span")
+      img.className='glyphicon glyphicon-check image';
+      var para=document.createElement("p");
+      var strike=document.createElement("s");
+      var node=document.createTextNode("$schedule.s_name");
+      strike.appendChild(node);
+      para.appendChild(img);
+      para.appendChild(strike);
+    
+      var attend=document.createElement("button");
+      attend.onclick=function(){location.href='$schedule.id/undo'};
+      attend.className="btn btn-xs att-button btn-primary";
+      var txt=document.createTextNode("撤销");
+      attend.appendChild(txt);
+      para.appendChild(attend);
+
+      var element=document.getElementById("$schedule.s_time");
+
+      element.appendChild(para);
+    </script>
+  $else:
+    <script>
+      var img=document.createElement("span")
+      img.className='glyphicon glyphicon-check image';
+      var para=document.createElement("p");
+      var strike=document.createElement("s");
+      var node=document.createTextNode("$schedule.person");
+      strike.appendChild(node);
+      para.appendChild(img);
+      para.appendChild(strike);
+    
+      var attend=document.createElement("button");
+      attend.onclick=function(){location.href='$schedule.id/undo'};
+      attend.className="btn btn-xs att-button btn-primary";
+      var txt=document.createTextNode("撤销");
+      attend.appendChild(txt);
+      para.appendChild(attend);
+
+      var element=document.getElementById("$schedule.s_time");
+
+      element.appendChild(para);
+    </script>
+<div class = "container mytable">
+  <table class = "table table-bordered table-striped">
+    <tr>
+      <th>name</th>
+      <th>duty</th>
+      <th>actual</th>
+    </tr>
+    $for user in users:
+      <tr>
+	<th>$user.s_name</th>
+	<td>$user.time_duty</td>
+	<td>$user.time_actual</td>
+      </tr>
+  </table>
+  <div class="container clear mytable">
+    <button class='btn btn-primary' onclick='location.href="userclear"'>清零</button>
+  </div>
+</div>
+$:render.foot()

@@ -1,0 +1,113 @@
+$def with(schedules)
+$:render.header()
+<div class="container mytable">
+  <table class="table table-bordered table-striped">
+    <tr>
+      <th class="blank"></th>
+      <th class="day">Monday</th>
+      <th class="day">Tuesday</th>
+      <th class="day">Wednesday</th>
+      <th class="day">Thursday</th>
+      <th class="day">Friday</th>
+      <th class="day">Sataurday</th>
+      <th class="day">Sunday</th>
+    </tr>
+    <tr>
+      <th class="time"> 9:00-12:00 </th>
+      $ j = 1
+      $for i in range(1, 8):
+        <td class="txt" id="$i$j"></td>
+    </tr>
+    <tr>
+      <th class="time"> 12:00-15:00 </th>
+      $ j = 2
+      $for i in range(1, 8):
+        <td class="txt" id="$i$j"></td>
+    </tr>
+    <tr>
+      <th class="time"> 15:00-18:00 </th>
+      $ j = 3
+      $for i in range(1, 8):
+        <td class="txt" id="$i$j"></td>
+    </tr>
+    <tr>
+      <th class="time"> 18:00-21:00 </th>
+      $ j = 4
+      $for i in range(1, 8):
+        <td class="txt" id="$i$j"></td>
+    </tr>
+    <tr>
+      <th class="time"> 21:00-22:30 </th>
+      $ j = 5
+      $for i in range(1, 8):
+        <td class="txt" id="$i$j"></td>
+    </tr>
+  </table>
+</div>
+$for schedule in schedules:
+  <script>
+    var para=document.createElement("p");
+    var node=document.createTextNode("$schedule.s_name" + " ");
+    para.appendChild(node);
+    
+    var del=document.createElement("button");
+    del.className='btn btn-xs att-button btn-primary';
+    del.onclick=function(){location.href="/schedule/$schedule.id/delete"};
+    var txt=document.createTextNode("删除");
+    del.appendChild(txt);
+    para.appendChild(del);
+
+    var element=document.getElementById("$schedule.s_time");
+    element.appendChild(para);
+  </script>
+<div class="container mytable">
+  <h2 class="form-user-heading"> 空余时间 </h2>
+  <form class="form-user" role="form" action="/schedule/new" method="post" id="post_new">
+    <table class="table table-striped">
+      <tr>
+	<th class="blank"></th>
+	<th class="day">Mon</th>
+	<th class="day">Tue</th>
+	<th class="day">Wed</th>
+	<th class="day">Thu</th>
+	<th class="day">Fri</th>
+	<th class="day">Sat</th>
+	<th class="day">Sun</th>
+      </tr>
+      <tr>
+	<th class="time"> 9:00-12:00 </th>
+	  $ j = 1
+	  $for i in range(1, 8):
+            <td class="check" id="$i$j"> <input type="checkbox" name="s_time" value="$i$j"/> </td>
+      </tr>
+      <tr>
+	<th class="time"> 12:00-15:00 </th>
+	$ j = 2
+	  $for i in range(1, 8):
+            <td class="check" id="$i$j"> <input type="checkbox" name="s_time" value="$i$j"/> </td>
+      </tr>
+      <tr>
+	<th class="time"> 15:00-18:00 </th>
+	$ j = 3
+	  $for i in range(1, 8):
+            <td class="check" id="$i$j"> <input type="checkbox" name="s_time" value="$i$j"/> </td>
+      </tr>
+      <tr>
+	<th class="time"> 18:00-21:00 </th>
+	$ j = 4
+	  $for i in range(1, 8):
+            <td class="check" id="$i$j"> <input type="checkbox" name="s_time" value="$i$j"/> </td>
+      </tr>
+      <tr>
+	<th class="time"> 21:00-22:30 </th>
+	$ j = 5
+	  $for i in range(1, 8):
+            <td class="check" id="$i$j"> <input type="checkbox" name="s_time" value="$i$j"/> </td>
+      </tr>
+    </table>
+    <button type="submit" class="btn btn-primary"/>添加</button>
+  </form>
+</div>
+
+
+$:render.foot()
