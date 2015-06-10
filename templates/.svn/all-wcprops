@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/sacmanage/!svn/ver/531/7/templates
+END
+header.html
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/sacmanage/!svn/ver/531/7/templates/header.html
+END
+manage.html
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/sacmanage/!svn/ver/531/7/templates/manage.html
+END
+error.html
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/sacmanage/!svn/ver/531/7/templates/error.html
+END
+superuser.html
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/sacmanage/!svn/ver/531/7/templates/superuser.html
+END
+user.html
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/sacmanage/!svn/ver/531/7/templates/user.html
+END
+register.html
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/sacmanage/!svn/ver/531/7/templates/register.html
+END
+foot.html
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/sacmanage/!svn/ver/531/7/templates/foot.html
+END
+index.html
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/sacmanage/!svn/ver/537/7/templates/index.html
+END

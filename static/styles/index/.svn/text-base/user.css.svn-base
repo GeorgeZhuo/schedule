@@ -1,0 +1,54 @@
+.day,
+.time,
+.txt,
+.check {
+    text-align: center;
+}
+
+.form-user {
+    max-width: 330px;
+}
+
+.clear,
+.logout,
+.launch {
+    padding-bottom: 10px;
+    text-align: right;
+}
+
+.form-name {
+    margin-bottom: 10px;
+}
+.image {
+    background-color: #eee;
+    margin-right: 10px;
+}
+.att-button {
+    margin-left: 5px;
+}
+
+.error-heading {
+    text-align: center;
+}
+
+.coverinput {
+    width: 60px;
+}
+.cover-btn {
+    margin-top: 5px;
+}
+.mybox {
+    background-color: #eee;
+    border-radius: 5px;
+    width: 95%;
+    margin-top: 200px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4) inset;
+}
+.mytable {
+    width: 100%;
+}
+
+.mytitle {
+    margin-left: 5%;
+}
