@@ -1,66 +1,58 @@
 #!/usr/bin/env python
 # coding: utf-8
 import web
-from Config import settings
-from Config.url import urls
+from config import settings
+from config.url import urls
 
 render = settings.render
 db = settings.db
 tb = 'schedule'
 
-def get_by_id(id):
-    s = db.select(tb, where='id=$id', vars=locals())
-    if not s:
-        return False
-    return s[0]
-    
-class New:
+class Strike:
 
-    def POST(self):
-        new_time = web.input(s_time=[])
-        user = db.select('user_data', where='s_name="'+web.ctx.session.s_name+'"')
-        duty = user[0].time_duty + len(new_time.s_time)
-        db.update('user_data', where='s_name="'+web.ctx.session.s_name+'"', time_duty=duty)
-        #if not new_id.s_id:
-            #return render.error('学号是必须的', None)
-        for k in range(0, len(new_time.s_time)):
-            db.insert(tb, s_name=web.ctx.session.s_name, s_time=new_time.s_time[k])
-        raise web.seeother('/schedule/data')
-
-class SuperNew:
-    def POST(self):
-        new_name = web.input().get('s_name')
-        new_time = web.input(s_time=[])
-
-        if not new_time:
-            return render.error('请选择时间', None)
-
-        user = db.select('user_data', where='s_name="'+new_name+'"')
-
-        if user:
-            duty = user[0].time_duty + len(new_time.s_time)
-            db.update('user_data', where='s_name="'+new_name+'"', time_duty=duty)
-            for k in range(0, len(new_time.s_time)):
-                db.insert(tb, s_name=new_name, s_time=new_time.s_time[k])
-            raise web.seeother('/schedule/data')
-
-        else:
-            return render.error('名字不存在', None)
-
-
-class Delete:
-
-    def GET(self, id):
-        schedule = get_by_id(id)
-        if not schedule:
-            return render.error('没找到这条记录', None)
-        user = db.select('user_data', where='s_name="'+schedule.s_name+'"')
+    def GET(self, sid):
+        schedule = db.select('schedule', where='id="'+sid+'"')
+        name = schedule[0].s_name
+        user = db.select('user_data', where='s_name="'+name+'"')
         duty = user[0].time_duty - 1
-        db.update('user_data', where='s_name="'+schedule.s_name+'"', time_duty=duty)
-        db.delete(tb, where='id=$id', vars=locals())
+        db.update('schedule', where='id="'+sid+'"', keep='0')
+        db.update('user_data', where='s_name="'+name+'"', time_duty=duty)
         raise web.seeother('/schedule/data')
-        #return render.error('删除成功！', '/')
 
+class Strikeundo:
+
+    def GET(self, sid):
+        schedule = db.select('schedule', where='id="'+sid+'"')
+        name = schedule[0].s_name
+        user = db.select('user_data', where='s_name="'+name+'"')
+        duty = user[0].time_duty + 1
+        db.update('schedule', where='id="'+sid+'"', keep='1')
+        db.update('user_data', where='s_name="'+name+'"', time_duty=duty)
+        raise web.seeother('/schedule/data')
+
+
+class Launch:
+    
+    def GET(self):
+        finalschedules = db.select('finalschedule')
+        finalusers = db.select('finaluser_data')
+        schedules = db.select('schedule')
+        users = db.select('user_data')
+        for finalschedule in finalschedules:
+            db.delete('finalschedule', where='id=finalschedule.id')
+        for finaluser in finalusers:
+            name = finaluser.s_name
+            db.delete('finaluser_data', where='s_name=$name', vars = locals())
+        for schedule in schedules:
+            if schedule.keep:
+                db.insert('finalschedule', s_name=schedule.s_name, s_time=schedule.s_time)
+            else:
+                sid=schedule.id
+                db.delete('schedule', where='id=$sid', vars=locals())
+        for user in users:
+            if user.s_type == 0:
+                db.insert('finaluser_data', s_name=user.s_name, time_duty=user.time_duty)
+        raise web.seeother('/schedule/data')
 
 class Userdelete:
 
